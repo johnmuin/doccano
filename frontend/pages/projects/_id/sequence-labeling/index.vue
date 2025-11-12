@@ -232,23 +232,25 @@ export default {
       await this.list(this.doc.id)
     },
 
-    async addSpan(startOffset, endOffset, labelId) {
+    async addSpan(startOffset, endOffset, labelId, standardId) {
       await this.$services.sequenceLabeling.create(
         this.projectId,
         this.doc.id,
         labelId,
         startOffset,
-        endOffset
+        endOffset,
+        standardId
       )
       await this.list(this.doc.id)
     },
 
-    async updateSpan(annotationId, labelId) {
+    async updateSpan(annotationId, labelId, standardId) {
       await this.$services.sequenceLabeling.changeLabel(
         this.projectId,
         this.doc.id,
         annotationId,
-        labelId
+        labelId,
+        standardId
       )
       await this.list(this.doc.id)
     },

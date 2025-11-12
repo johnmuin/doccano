@@ -46,10 +46,12 @@ class Span(Label):
     label = models.ForeignKey(to=SpanType, on_delete=models.CASCADE)
     start_offset = models.IntegerField()
     end_offset = models.IntegerField()
+    standard_id = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         text = self.example.text[self.start_offset : self.end_offset]
-        return f"({text}, {self.start_offset}, {self.end_offset}, {self.label.text})"
+        standard_part = f", {self.standard_id}" if self.standard_id else ""
+        return f"({text}, {self.start_offset}, {self.end_offset}, {self.label.text}{standard_part})"
 
     def validate_unique(self, exclude=None):
         allow_overlapping = getattr(self.example.project, "allow_overlapping", False)

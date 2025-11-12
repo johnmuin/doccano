@@ -24,9 +24,10 @@ export class SequenceLabelingApplicationService extends AnnotationApplicationSer
     exampleId: number,
     labelId: number,
     startOffset: number,
-    endOffset: number
+    endOffset: number,
+    standardId?: string
   ): Promise<void> {
-    const item = new Span(0, labelId, 0, startOffset, endOffset)
+    const item = new Span(0, labelId, 0, startOffset, endOffset, standardId)
     try {
       await this.repository.create(projectId, exampleId, item)
     } catch (e: any) {
@@ -38,11 +39,12 @@ export class SequenceLabelingApplicationService extends AnnotationApplicationSer
     projectId: string,
     exampleId: number,
     annotationId: number,
-    labelId: number
+    labelId: number,
+    standardId?: string
   ): Promise<void> {
     try {
       const span = await this.repository.find(projectId, exampleId, annotationId)
-      span.changeLabel(labelId)
+      span.changeLabel(labelId, standardId)
       await this.repository.update(projectId, exampleId, annotationId, span)
     } catch (e: any) {
       console.log(e.response.data.detail)

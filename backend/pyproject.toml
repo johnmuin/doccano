@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "doccano-xujm"
-version = "1.8.4.xujm1"
+name = "doccano"
+version = "1.8.4+custom1"
 description = "doccano, text annotation tool for machine learning practitioners"
 authors = ["xujm <xujunming@promegene.com>", "Hironsan <hiroki.nakayama.py@gmail.com>"]
 license = "MIT"

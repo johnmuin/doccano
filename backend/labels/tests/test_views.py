@@ -179,7 +179,25 @@ class TestSpanCreation(TestDataLabeling, CRUDMixin):
 
     def create_data(self):
         label = make_label(self.project.item)
-        return {"label": label.id, "start_offset": 0, "end_offset": 1}
+        return {"label": label.id, "start_offset": 0, "end_offset": 1, "standard_id": "D001"}
+
+    def test_create_span_with_standard_id(self):
+        """测试创建带有standard_id的span"""
+        label = make_label(self.project.item)
+        data = {"label": label.id, "start_offset": 0, "end_offset": 5, "standard_id": "MeSH:C123"}
+        self.client.force_login(self.project.admin)
+        response = self.client.post(self.url, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["standard_id"], "MeSH:C123")
+
+    def test_create_span_without_standard_id(self):
+        """测试创建不带有standard_id的span"""
+        label = make_label(self.project.item)
+        data = {"label": label.id, "start_offset": 6, "end_offset": 11}
+        self.client.force_login(self.project.admin)
+        response = self.client.post(self.url, data=data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIsNone(response.data["standard_id"])
 
 
 class TestRelationCreation(TestDataLabeling, CRUDMixin):

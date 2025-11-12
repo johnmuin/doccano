@@ -23,6 +23,7 @@
       :y="y"
       :selected-label="currentLabel"
       :labels="entityLabels"
+      :current-standard-id="entity ? entity.standardId : ''"
       @close="cleanUp"
       @click:label="addOrUpdateEntity"
     />
@@ -213,12 +214,12 @@ export default Vue.extend({
       this.showRelationLabelMenu(e)
     },
 
-    addOrUpdateEntity(labelId: number) {
+    addOrUpdateEntity(labelId: number, standardId?: string) {
       if (labelId) {
         if (this.entity) {
-          this.updateEntity(labelId)
+          this.updateEntity(labelId, standardId)
         } else {
-          this.addEntity(labelId)
+          this.addEntity(labelId, standardId)
         }
       } else {
         this.deleteEntity(this.entity)
@@ -239,12 +240,12 @@ export default Vue.extend({
       this.cleanUp()
     },
 
-    addEntity(labelId: number) {
-      this.$emit('addEntity', this.startOffset, this.endOffset, labelId)
+    addEntity(labelId: number, standardId?: string) {
+      this.$emit('addEntity', this.startOffset, this.endOffset, labelId, standardId)
     },
 
-    updateEntity(labelId: number) {
-      this.$emit('click:entity', this.entity!.id, labelId)
+    updateEntity(labelId: number, standardId?: string) {
+      this.$emit('click:entity', this.entity!.id, labelId, standardId)
     },
 
     deleteEntity(entity: any) {
