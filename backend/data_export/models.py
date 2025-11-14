@@ -51,12 +51,16 @@ class ExportedCategory(Category):
 
 class ExportedSpan(Span):
     def to_dict(self):
-        return {
+        span_dict = {
             "id": self.id,
             "label": self.label.text,
             "start_offset": self.start_offset,
             "end_offset": self.end_offset,
         }
+        # 添加标准化ID字段（如果存在）
+        if self.standard_id:
+            span_dict["standard_id"] = self.standard_id
+        return span_dict
 
     def to_tuple(self):
         return self.start_offset, self.end_offset, self.label.text

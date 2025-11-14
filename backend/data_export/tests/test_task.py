@@ -201,7 +201,7 @@ class TestExportIntentDetectionAndSlotFilling(TestExport):
         self.comment1 = mommy.make("ExportedComment", example=self.example1, user=self.project.admin)
         self.comment2 = mommy.make("ExportedComment", example=self.example1, user=self.project.annotator)
         self.span = mommy.make(
-            "ExportedSpan", example=self.example1, user=self.project.admin, start_offset=0, end_offset=1
+            "ExportedSpan", example=self.example1, user=self.project.admin, start_offset=0, end_offset=1, standard_id="STD_001"
         )
         mommy.make("ExampleState", example=self.example1, confirmed_by=self.project.admin)
         self.data1 = self.data_to_text(self.example1)

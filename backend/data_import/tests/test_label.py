@@ -77,10 +77,11 @@ class TestSpanLabel(TestLabel):
 
     def test_parse_dict(self):
         example_uuid = uuid.uuid4()
-        span = SpanLabel.parse(example_uuid, obj={"label": "A", "start_offset": 0, "end_offset": 1})
+        span = SpanLabel.parse(example_uuid, obj={"label": "A", "start_offset": 0, "end_offset": 1, "standard_id": "STD_001"})
         self.assertEqual(span.label, "A")
         self.assertEqual(span.start_offset, 0)
         self.assertEqual(span.end_offset, 1)
+        self.assertEqual(span.standard_id, "STD_001")
 
     def test_invalid_negative_offset(self):
         with self.assertRaises(ValueError):
@@ -102,11 +103,12 @@ class TestSpanLabel(TestLabel):
         self.assertEqual(span_type.text, "A")
 
     def test_create(self):
-        span = SpanLabel(label="A", start_offset=0, end_offset=1, example_uuid=uuid.uuid4())
+        span = SpanLabel(label="A", start_offset=0, end_offset=1, standard_id="STD_001", example_uuid=uuid.uuid4())
         types = MagicMock()
         types.__getitem__.return_value = mommy.make(SpanType, project=self.project.item)
         span_model = span.create(self.user, self.example, types)
         self.assertIsInstance(span_model, SpanModel)
+        self.assertEqual(span_model.standard_id, "STD_001")
 
 
 class TestTextLabel(TestLabel):

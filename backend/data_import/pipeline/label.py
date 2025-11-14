@@ -65,6 +65,7 @@ class SpanLabel(Label):
     label: constr(min_length=1)  # type: ignore
     start_offset: NonNegativeInt
     end_offset: NonNegativeInt
+    standard_id: str = ""  # 添加标准化ID字段
 
     def __lt__(self, other):
         return self.start_offset < other.start_offset
@@ -97,6 +98,7 @@ class SpanLabel(Label):
             start_offset=self.start_offset,
             end_offset=self.end_offset,
             label=types[self.label],
+            standard_id=self.standard_id if self.standard_id else None,
         )
 
 
